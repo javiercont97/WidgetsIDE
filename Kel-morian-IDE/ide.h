@@ -2,8 +2,11 @@
 #define IDE_H
 
 #include <QMainWindow>
-
-#include <QGraphicsScene>
+#include <preview/quickpreview.h>
+#include <QFile>
+#include <QFileDialog>
+#include <QTextStream>
+#include <QMessageBox>
 
 namespace Ui {
 	class IDE;
@@ -17,17 +20,30 @@ public:
 	~IDE();
 
 private slots:
-	QGraphicsItem* getSelectedItem();
-	void initWidgetList();
-	void initCanvas();
-	void init();
+    void on_actionNew_Project_triggered();
+    void on_actionOpen_Project_triggered();
+    void on_actionSave_triggered();
+
+    void on_actionRun_triggered();
+
+    void on_actionExit_program_2_triggered();
+
+    void on_actionCopy_triggered();
+
+    void on_actionCut_triggered();
+
+    void on_actionPaste_triggered();
+
+    void on_actionSelect_all_triggered();
+
+    void on_actionDeploy_triggered();
 
 private:
-	Ui::IDE *ui;
+    void init();
+    Ui::IDE *ui;
 
-	QGraphicsScene *scene;
-	QGraphicsRectItem *canvasRect;
-
+    QString fileName;
 };
+
 
 #endif // IDE_H

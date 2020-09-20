@@ -1,4 +1,6 @@
 QT       += core gui
+QT       += quickwidgets  ## qt quick support
+QT       += network       ## http request support
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,25 +18,31 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    canvaswidget.cpp \
+    editor/codeeditor.cpp \
+    editor/linenumberarea.cpp \
     ide.cpp \
     main.cpp \
     login.cpp \
-    resizableitem.cpp \
-    resizehandle.cpp
+    preview/quickpreview.cpp
 
 HEADERS += \
-    canvaswidget.h \
+    editor/codeeditor.h \
+    editor/linenumberarea.h \
     ide.h \
     login.h \
-    resizableitem.h \
-    resizehandle.h
+    preview/quickpreview.h
 
 FORMS += \
     ide.ui \
-    login.ui
+    login.ui \
+    preview/quickpreview.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES +=
+
+RESOURCES += \
+    assets.qrc

@@ -285,13 +285,24 @@ Makefile: ..\Kel-morian-IDE\Kel-morian-IDE.pro D:\Programas\Qt\5.15.0\msvc2019_6
 		D:\Programas\Qt\5.15.0\msvc2019_64\mkspecs\features\yacc.prf \
 		D:\Programas\Qt\5.15.0\msvc2019_64\mkspecs\features\lex.prf \
 		..\Kel-morian-IDE\Kel-morian-IDE.pro \
+		D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5QuickWidgets.prl \
+		D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Quick.prl \
 		D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Widgets.prl \
 		D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Gui.prl \
+		D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5QmlModels.prl \
+		D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Qml.prl \
+		D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Network.prl \
 		D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Core.prl \
 		D:\Programas\Qt\5.15.0\msvc2019_64\lib\qtmain.prl \
 		D:\Programas\Qt\5.15.0\msvc2019_64\mkspecs\features\build_pass.prf \
+		..\Kel-morian-IDE\assets.qrc \
+		D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5QuickWidgetsd.prl \
+		D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Quickd.prl \
 		D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Widgetsd.prl \
 		D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Guid.prl \
+		D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5QmlModelsd.prl \
+		D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Qmld.prl \
+		D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Networkd.prl \
 		D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Cored.prl \
 		D:\Programas\Qt\5.15.0\msvc2019_64\lib\qtmaind.prl
 	$(QMAKE) -o Makefile ..\Kel-morian-IDE\Kel-morian-IDE.pro -spec win32-msvc "CONFIG+=debug" "CONFIG+=qml_debug"
@@ -496,13 +507,24 @@ D:\Programas\Qt\5.15.0\msvc2019_64\mkspecs\features\exceptions.prf:
 D:\Programas\Qt\5.15.0\msvc2019_64\mkspecs\features\yacc.prf:
 D:\Programas\Qt\5.15.0\msvc2019_64\mkspecs\features\lex.prf:
 ..\Kel-morian-IDE\Kel-morian-IDE.pro:
+D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5QuickWidgets.prl:
+D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Quick.prl:
 D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Widgets.prl:
 D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Gui.prl:
+D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5QmlModels.prl:
+D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Qml.prl:
+D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Network.prl:
 D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Core.prl:
 D:\Programas\Qt\5.15.0\msvc2019_64\lib\qtmain.prl:
 D:\Programas\Qt\5.15.0\msvc2019_64\mkspecs\features\build_pass.prf:
+..\Kel-morian-IDE\assets.qrc:
+D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5QuickWidgetsd.prl:
+D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Quickd.prl:
 D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Widgetsd.prl:
 D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Guid.prl:
+D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5QmlModelsd.prl:
+D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Qmld.prl:
+D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Networkd.prl:
 D:\Programas\Qt\5.15.0\msvc2019_64\lib\Qt5Cored.prl:
 D:\Programas\Qt\5.15.0\msvc2019_64\lib\qtmaind.prl:
 qmake: FORCE
