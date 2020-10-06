@@ -14,11 +14,13 @@ CodeEditor::CodeEditor(QWidget *parent): QPlainTextEdit(parent) {
 
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
+
+    highlighter.setDocument(this->document());
 }
 
 void CodeEditor::lineNumberPaintEvent(QPaintEvent *event) {
     QPainter painter(lineNumberArea);
-    painter.fillRect(event->rect(), Qt::lightGray);
+    painter.fillRect(event->rect(), QColor(48, 48, 48));
 
 
     QTextBlock block = firstVisibleBlock();
@@ -30,9 +32,14 @@ void CodeEditor::lineNumberPaintEvent(QPaintEvent *event) {
     while (block.isValid() && top <= event->rect().bottom()) {
         if (block.isVisible() && bottom >= event->rect().top()) {
             QString number = QString::number(blockNumber + 1);
-            painter.setPen(Qt::black);
+            painter.setPen(Qt::lightGray);
+//            painter.save();
+            QFont f = this->font();  // font size in ide.ui file
+            painter.setFont(f);
             painter.drawText(0, top, lineNumberArea->width(), fontMetrics().height(),
                              Qt::AlignRight, number);
+
+//            painter.restore();
         }
 
         block = block.next();
@@ -73,7 +80,8 @@ void CodeEditor::highlightCurrentLine() {
     if (!isReadOnly()) {
         QTextEdit::ExtraSelection selection;
 
-        QColor lineColor = QColor(Qt::yellow).lighter(160);
+//        QColor lineColor = QColor(Qt::yellow).lighter(160);
+        QColor lineColor = QColor(QColor(70, 70, 70));
 
         selection.format.setBackground(lineColor);
         selection.format.setProperty(QTextFormat::FullWidthSelection, true);

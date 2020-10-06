@@ -8,5 +8,11 @@
         <file>icons/paste.png</file>
         <file>icons/play.png</file>
         <file>icons/save.png</file>
+        <file>PreviewLoader.qml</file>
+        <file>Empty.qml</file>
+        <file>Gauge.qml</file>
+        <file>ButtonArray.qml</file>
+        <file>SwitchArray.qml</file>
+        <file>icons/icon.png</file>
     </qresource>
 </RCC>

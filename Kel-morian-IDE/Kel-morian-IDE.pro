@@ -1,10 +1,15 @@
 QT       += core gui
 QT       += quickwidgets  ## qt quick support
 QT       += network       ## http request support
+QT       += websockets       ## websockets request support
+QT       += mqtt             ## mqtt support
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
+
+RC_ICONS = icon.ico
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -18,24 +23,28 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    api/wstt.cpp \
     editor/codeeditor.cpp \
+    editor/codehighlighter.cpp \
     editor/linenumberarea.cpp \
     ide.cpp \
     main.cpp \
-    login.cpp \
-    preview/quickpreview.cpp
+    preview/quickpreview.cpp \
+    tools/templateselector.cpp
 
 HEADERS += \
+    api/wstt.h \
     editor/codeeditor.h \
+    editor/codehighlighter.h \
     editor/linenumberarea.h \
     ide.h \
-    login.h \
-    preview/quickpreview.h
+    preview/quickpreview.h \
+    tools/templateselector.h
 
 FORMS += \
     ide.ui \
-    login.ui \
-    preview/quickpreview.ui
+    preview/quickpreview.ui \
+    tools/templateselector.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

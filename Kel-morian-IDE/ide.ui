@@ -13,22 +13,82 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+	background-color: #303030;
+	color: #ffffff;
+}</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="CodeEditor" name="plainTextEdit">
+   <widget class="QSplitter" name="splitter_2">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>50</y>
-      <width>256</width>
-      <height>192</height>
+      <x>80</x>
+      <y>20</y>
+      <width>556</width>
+      <height>390</height>
      </rect>
     </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>4</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
     </property>
+    <widget class="CodeEditor" name="codeEditor">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>4</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>15</pointsize>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: #303030;
+color: #ffffff;</string>
+     </property>
+    </widget>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <widget class="QQuickWidget" name="previewZone">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>480</width>
+        <height>320</height>
+       </size>
+      </property>
+      <property name="resizeMode">
+       <enum>QQuickWidget::SizeRootObjectToView</enum>
+      </property>
+     </widget>
+     <widget class="QPlainTextEdit" name="loggingZone">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #303030;
+color: #ffffff;</string>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -74,8 +134,19 @@
     <addaction name="actionHelp"/>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuInser">
+    <property name="title">
+     <string>Insert</string>
+    </property>
+    <addaction name="actionButton"/>
+    <addaction name="actionSwitch"/>
+    <addaction name="actionDial"/>
+    <addaction name="actionLabel"/>
+    <addaction name="actionGauge"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
+   <addaction name="menuInser"/>
    <addaction name="menuBuild"/>
    <addaction name="menuHelp"/>
   </widget>
@@ -139,12 +210,18 @@
    <property name="text">
     <string>Save</string>
    </property>
+   <property name="toolTip">
+    <string>Save</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
    </property>
   </action>
   <action name="actionExit_program_2">
    <property name="text">
+    <string>Exit program</string>
+   </property>
+   <property name="toolTip">
     <string>Exit program</string>
    </property>
    <property name="shortcut">
@@ -159,6 +236,9 @@
    <property name="text">
     <string>Run</string>
    </property>
+   <property name="toolTip">
+    <string>Run</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
    </property>
@@ -171,6 +251,9 @@
    <property name="text">
     <string>Make Package</string>
    </property>
+   <property name="toolTip">
+    <string>Make Package</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+K, Ctrl+P</string>
    </property>
@@ -179,9 +262,15 @@
    <property name="text">
     <string>Help</string>
    </property>
+   <property name="toolTip">
+    <string>Help</string>
+   </property>
   </action>
   <action name="actionAbout">
    <property name="text">
+    <string>About</string>
+   </property>
+   <property name="toolTip">
     <string>About</string>
    </property>
   </action>
@@ -191,6 +280,9 @@
      <normaloff>:/icons/copy.png</normaloff>:/icons/copy.png</iconset>
    </property>
    <property name="text">
+    <string>Copy</string>
+   </property>
+   <property name="toolTip">
     <string>Copy</string>
    </property>
    <property name="shortcut">
@@ -205,6 +297,9 @@
    <property name="text">
     <string>Cut</string>
    </property>
+   <property name="toolTip">
+    <string>Cut</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+X</string>
    </property>
@@ -217,6 +312,9 @@
    <property name="text">
     <string>Paste</string>
    </property>
+   <property name="toolTip">
+    <string>Paste</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+V</string>
    </property>
@@ -225,9 +323,57 @@
    <property name="text">
     <string>Select all</string>
    </property>
+   <property name="toolTip">
+    <string>Select all</string>
+   </property>
+  </action>
+  <action name="actionButton">
+   <property name="text">
+    <string>Button</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I, Ctrl+B</string>
+   </property>
+  </action>
+  <action name="actionSwitch">
+   <property name="text">
+    <string>Switch</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I, Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionGauge">
+   <property name="text">
+    <string>Gauge</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I, Ctrl+G</string>
+   </property>
+  </action>
+  <action name="actionLabel">
+   <property name="text">
+    <string>Label</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I, Ctrl+L</string>
+   </property>
+  </action>
+  <action name="actionDial">
+   <property name="text">
+    <string>Dial</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I, Ctrl+D</string>
+   </property>
   </action>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>QQuickWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">QtQuickWidgets/QQuickWidget</header>
+  </customwidget>
   <customwidget>
    <class>CodeEditor</class>
    <extends>QPlainTextEdit</extends>
