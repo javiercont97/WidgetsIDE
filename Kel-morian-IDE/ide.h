@@ -43,6 +43,10 @@ private slots:
     void on_actionLabel_triggered();
     void on_actionDial_triggered();
 
+    void on_actionAbout_triggered();
+
+    void on_actionAbout_Qt_triggered();
+
 private:
     void init();
     void updatePreview();

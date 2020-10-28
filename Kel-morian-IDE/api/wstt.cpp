@@ -1,117 +1,113 @@
-//#include "wstt.h"
-//#include <QJsonDocument>
-//#include <QJsonObject>
-//#include <QJsonValue>
+#include "wstt.h"
 
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonValue>
 
-//WSTT::WSTT(QObject *parent) : QObject(parent) {
-//    socket = new QWebSocket();
-//}
+WSTT::WSTT(QObject *parent) : QObject(parent) {
+    socket = new QWebSocket();
+}
 
-//WSTT::~WSTT() {
-//    if(socket->state() == QAbstractSocket::SocketState::ConnectedState) {
-//        socket->close();
-//    }
-//    delete socket;
-//}
+WSTT::~WSTT() {
+    if(socket->state() == QAbstractSocket::SocketState::ConnectedState) {
+        socket->close();
+    }
+    delete socket;
+}
 
-//void WSTT::ConnectServer(QString id, QString apiKey, QString targetApp, CLIENT_TYPE type, QUrl hostUrl) {
-//    this->id = id;
-//    this->apiKey = apiKey;
-//    this->type = type;
-//    this->targetApp = targetApp;
+void WSTT::publish(QString topic, QString message) {
+    if(topic != "Auth" && topic != "Subs" && authenticated) {
+        QJsonDocument json;
+        QJsonObject jsonBody;
+        jsonBody.insert("targetApp", this->appID);
+        jsonBody.insert("topic", topic);
+        jsonBody.insert("message", message);
+        json.setObject(jsonBody);
+        socket->sendBinaryMessage(json.toJson());
+    }
+}
 
-//    connect(socket, &QWebSocket::connected, this, &WSTT::onConnected);
-//    connect(socket, &QWebSocket::disconnected, this, &WSTT::onClosed);
-//    connect(socket, &QWebSocket::textMessageReceived, this, &WSTT::onMessage);
+void WSTT::subscribe(QString topic) {
+    QJsonDocument json;
+    QJsonObject jsonBody;
+    jsonBody.insert("targetApp", this->appID);
+    jsonBody.insert("topic", "Subs");
 
-//    socket->open(hostUrl);
-//}
+    QJsonObject message;
+    message.insert("targetApp", this->appID);
+    message.insert("topic", topic);
 
-//bool WSTT::sendMessage(QString topic, QString message) {
-//    if(topic != "Auth" && topic != "Subs") {
-//        QJsonDocument json;
-//        QJsonObject jsonBody;
-//        jsonBody.insert("targetApp", this->targetApp);
-//        jsonBody.insert("topic", topic);
-//        QJsonObject messageBody;
-//        messageBody.insert("message", message);
-//        jsonBody.insert("message", messageBody);
-//        json.setObject(jsonBody);
-//        socket->sendBinaryMessage(json.toJson());
-//        return true;
-//    }
-//    return false;
-//}
+    jsonBody.insert("message", message);
+    json.setObject(jsonBody);
 
-//bool WSTT::sendMessage(QString topic, QJsonObject message) {
-//    if(topic != "Auth" && topic != "Subs") {
-//        QJsonDocument json;
-//        QJsonObject jsonBody;
-//        jsonBody.insert("targetApp", this->targetApp);
-//        jsonBody.insert("topic", topic);
-//        jsonBody.insert("message", message);
-//        json.setObject(jsonBody);
-//        socket->sendBinaryMessage(json.toJson());
-//        return true;
-//    }
-//    return false;
-//}
+    socket->sendBinaryMessage(json.toJson());
+}
 
-//void WSTT::subscribe(QString topic) {
-//    QJsonDocument json;
-//    QJsonObject jsonBody;
-//    jsonBody.insert("targetApp", this->targetApp);
-//    jsonBody.insert("topic", "Subs");
+void WSTT::onConnected() {
+    QJsonDocument json;
+    QJsonObject jsonBody;
 
-//    QJsonObject message;
-//    message.insert("targetApp", this->targetApp);
-//    message.insert("topic", topic);
+    jsonBody.insert("topic", "Auth");
 
-//    jsonBody.insert("message", message);
-//    json.setObject(jsonBody);
+    QJsonObject message;
+    message.insert("appID", this->appID);
+    message.insert("apiKey", this->apiKey);
+    jsonBody.insert("message", message);
 
-//    socket->sendBinaryMessage(json.toJson());
-//}
+    json.setObject(jsonBody);
 
-//void WSTT::onConnected() {
-//    QJsonDocument json;
-//    QJsonObject jsonBody;
+    socket->sendBinaryMessage(json.toJson());
+}
 
-//    jsonBody.insert("topic", "Auth");
+void WSTT::onClosed() {
+    if(socket->state() == QAbstractSocket::SocketState::ConnectedState) {
+        socket->close();
+    }
+}
 
-//    QJsonObject message;
-//    if(this->type == CLIENT_TYPE::DEVICE){
-//        message.insert("deviceID", this->id);
-//    } else {
-//        message.insert("appID", this->id);
-//    }
-//    message.insert("apiKey", this->apiKey);
-//    jsonBody.insert("message", message);
+void WSTT::onMessage(QString message) {
+    QJsonDocument jsonMessage = QJsonDocument::fromJson(message.toUtf8());
 
-//    json.setObject(jsonBody);
+    if(jsonMessage.object().value("topic").toString() == "Auth") {
+        if(jsonMessage.object().value("res").toString() == "accepted") {
+            authenticated = true;
+            emit connectionEstablished();
+        } else {
+            emit credentialsRejected();
+        }
+    } else {
+        emit messageRecieved(message);
+    }
+}
 
-//    socket->sendBinaryMessage(json.toJson());
-//}
+void WSTT::connectServer() {
+    connect(socket, &QWebSocket::connected, this, &WSTT::onConnected);
+    connect(socket, &QWebSocket::disconnected, this, &WSTT::onClosed);
+    connect(socket, &QWebSocket::textMessageReceived, this, &WSTT::onMessage);
 
-//void WSTT::onClosed() {
-//    if(socket->state() == QAbstractSocket::SocketState::ConnectedState) {
-//        socket->close();
-//    }
-//}
+    socket->open(this->host);
+}
 
-//void WSTT::onMessage(QString message) {
-//    QJsonDocument jsonMessage = QJsonDocument::fromJson(message.toUtf8());
+QString WSTT::getHost() const {
+    return host;
+}
 
-//    if(jsonMessage.object().value("topic").toString() == "Auth") {
-//        if(jsonMessage.object().value("res").toString() == "accepted") {
-//            emit connectionEstablished();
-//        } else {
-//            emit credentialsRejected();
-//        }
-//    } else {
-//        emit messageRecieved(message);
-//        emit messageRecieved(QString::fromStdString(message.toStdString()));
-//        emit messageRecieved(jsonMessage.object().value("message").toObject());
-//    }
-//}
+void WSTT::setHost(const QString &value) {
+    host = value;
+}
+
+QString WSTT::getApiKey() const {
+    return apiKey;
+}
+
+void WSTT::setApiKey(const QString &value) {
+    apiKey = value;
+}
+
+QString WSTT::getAppID() const {
+    return appID;
+}
+
+void WSTT::setAppID(const QString &value) {
+    appID = value;
+}

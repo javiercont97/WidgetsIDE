@@ -1,46 +1,52 @@
-//#ifndef WSTT_H
-//#define WSTT_H
+#ifndef WSTT_H
+#define WSTT_H
 
-//#include <QObject>
-//#include <QWebSocket>
+#include <QObject>
+#include <QWebSocket>
 
-//enum class CLIENT_TYPE {
-//    APPLICATION,
-//    DEVICE
-//};
+class WSTT : public QObject {
+    Q_OBJECT
+    Q_PROPERTY(QString appID READ getAppID WRITE setAppID)
+    Q_PROPERTY(QString apiKey READ getApiKey WRITE setApiKey)
+    Q_PROPERTY(QString host READ getHost WRITE setHost)
 
-//class WSTT : public QObject {
-//    Q_OBJECT
-//public:
-//    explicit WSTT(QObject *parent = nullptr);
-//    ~WSTT();
+public:
+    explicit WSTT(QObject *parent = nullptr);
+    ~WSTT();
 
-//    void ConnectServer(QString id, QString apiKey, QString targetApp, CLIENT_TYPE type = CLIENT_TYPE::DEVICE, QUrl hostUrl = QUrl("ws://ec2-52-15-169-160.us-east-2.compute.amazonaws.com:3000"));
+    QString getAppID() const;
+    void setAppID(const QString &value);
 
-//    bool sendMessage(QString topic, QString message);
-//    bool sendMessage(QString topic, QJsonObject message);
+    QString getApiKey() const;
+    void setApiKey(const QString &value);
 
-//    void subscribe(QString topic);
+    QString getHost() const;
+    void setHost(const QString &value);
 
-//signals:
-//    void messageRecieved( QJsonObject message);
-//    void messageRecieved( QString message);
-//    void messageRecieved( QByteArray message);
+public slots:
+    void connectServer();
+    void publish(QString topic, QString message);
 
-//    void connectionEstablished();
-//    void credentialsRejected();
-//private slots:
-//    void onConnected();
-//    void onClosed();
-//    void onMessage( QString message );
-
-//private:
-//    QWebSocket *socket;
-//    QString id;
-//    QString apiKey;
-//    CLIENT_TYPE type;
-//    QString targetApp;
-//};
+    void subscribe(QString topic);
 
 
-//#endif // WSTT_H
+signals:
+    void messageRecieved(QString message);
+
+    void connectionEstablished();
+    void credentialsRejected();
+private slots:
+    void onConnected();
+    void onClosed();
+    void onMessage(QString message);
+
+private:
+
+    QWebSocket *socket;
+    QString appID;
+    QString apiKey;
+    QString host = "ws://ec2-18-224-3-207.us-east-2.compute.amazonaws.com:3000";
+    bool authenticated = false;
+};
+
+#endif // WSTT_H

@@ -14,5 +14,10 @@
         <file>ButtonArray.qml</file>
         <file>SwitchArray.qml</file>
         <file>icons/icon.png</file>
+        <file>GaugePreview.qml</file>
+        <file>Controls/Gauge.qml</file>
+        <file>Controls/qmldir</file>
+        <file>Controls/pugins.qmltypes</file>
+        <file>icons/imt-Logo.jpg</file>
     </qresource>
 </RCC>

@@ -7,8 +7,13 @@
 #include <QQmlEngine>
 #include <QProcess>
 
+#include <QSplitter>
+#include <QSplitterHandle>
 
-#include <QMqttClient>
+#include <QDesktopServices>
+
+#include <QMessageBox>
+
 
 IDE::IDE(QWidget *parent): QMainWindow(parent),ui(new Ui::IDE) {
     ui->setupUi(this);
@@ -16,6 +21,9 @@ IDE::IDE(QWidget *parent): QMainWindow(parent),ui(new Ui::IDE) {
     init();
 
     this->setCentralWidget(ui->splitter_2);
+
+    ui->previewZone->engine()->addImportPath("qrc:/");
+    ui->previewZone->engine()->importModule(":/Controls/qmldir");
 
     connect(ui->previewZone->engine(), &QQmlEngine::warnings, this, &IDE::onPreviewWarnings);
 }
@@ -38,6 +46,9 @@ void IDE::updatePreview() {
     ui->loggingZone->clear();
     ui->previewZone->rootObject()->setProperty("sourcePath", "");
     ui->previewZone->engine()->clearComponentCache();
+
+    //qInfo() << ui->previewZone->engine()->importPathList();
+
     ui->previewZone->rootObject()->setProperty("sourcePath", "file:///" + fileName);
 }
 
@@ -289,3 +300,11 @@ void IDE::on_actionDial_triggered() {
                                     "}\n");
 }
 
+
+void IDE::on_actionAbout_triggered() {
+    QDesktopServices::openUrl ( QUrl("http:/imt-iotlabs.net/docs/editor/intro/") );
+}
+
+void IDE::on_actionAbout_Qt_triggered() {
+    QMessageBox::aboutQt(this, "About Qt");
+}

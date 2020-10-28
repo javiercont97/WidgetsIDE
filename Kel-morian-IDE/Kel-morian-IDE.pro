@@ -1,8 +1,10 @@
 QT       += core gui
 QT       += quickwidgets  ## qt quick support
+QT       += quickcontrols2  ## material design support
 QT       += network       ## http request support
 QT       += websockets       ## websockets request support
 QT       += mqtt             ## mqtt support
+
 
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -45,6 +47,9 @@ FORMS += \
     ide.ui \
     preview/quickpreview.ui \
     tools/templateselector.ui
+
+QML_IMPORT_PATH += \
+    Controls/
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -131,8 +131,8 @@ color: #ffffff;</string>
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionHelp"/>
     <addaction name="actionAbout"/>
+    <addaction name="actionAbout_Qt"/>
    </widget>
    <widget class="QMenu" name="menuInser">
     <property name="title">
@@ -258,22 +258,6 @@ color: #ffffff;</string>
     <string>Ctrl+K, Ctrl+P</string>
    </property>
   </action>
-  <action name="actionHelp">
-   <property name="text">
-    <string>Help</string>
-   </property>
-   <property name="toolTip">
-    <string>Help</string>
-   </property>
-  </action>
-  <action name="actionAbout">
-   <property name="text">
-    <string>About</string>
-   </property>
-   <property name="toolTip">
-    <string>About</string>
-   </property>
-  </action>
   <action name="actionCopy">
    <property name="icon">
     <iconset resource="assets.qrc">
@@ -365,6 +349,16 @@ color: #ffffff;</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+I, Ctrl+D</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionAbout_Qt">
+   <property name="text">
+    <string>About Qt</string>
    </property>
   </action>
  </widget>

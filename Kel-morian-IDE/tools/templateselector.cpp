@@ -19,7 +19,7 @@ void TemplateSelector::selectionChanged(QListWidgetItem *i) {
     if(i->text() == "Empty") {
         path = ":/Empty.qml";
     } else if(i->text() == "Gauge") {
-        path = ":/Gauge.qml";
+        path = ":/GaugePreview.qml";
     } else if(i->text() == "Button array") {
         path = ":/ButtonArray.qml";
     } else if(i->text() == "Switch array") {
