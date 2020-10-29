@@ -3,7 +3,7 @@
 
 #include <QPainter>
 #include <QTextBlock>
-
+#include <QDebug>
 
 CodeEditor::CodeEditor(QWidget *parent): QPlainTextEdit(parent) {
     lineNumberArea = new LineNumberArea(this);
@@ -93,6 +93,46 @@ void CodeEditor::highlightCurrentLine() {
     setExtraSelections(extraSelections);
 }
 
+void CodeEditor::commentCurrentLine() {
+    if(!isReadOnly()) {
+        QTextBlock tb = this->document()->findBlockByLineNumber(this->textCursor().blockNumber());
+        QString s = tb.text();
+        if(s.startsWith("//")) {
+            s.remove(0, 2);
+        } else {
+            s = "//" + s;
+        }
+
+        QTextCursor cursor = this->textCursor();
+        cursor.select(QTextCursor::LineUnderCursor);
+        cursor.removeSelectedText();
+        this->setTextCursor(cursor);
+
+        this->insertPlainText(s);
+    }
+}
+
+void CodeEditor::insertIndentation() {
+    if(!isReadOnly()) {
+        QTextBlock tb = this->document()->findBlockByLineNumber(this->textCursor().blockNumber());
+        QString s = tb.text();
+
+        QString currentIntentation = "";
+        int i = 0;
+        while(s.at(i) == " ") {
+            currentIntentation += " ";
+            i ++;
+        }
+
+        if(s.endsWith("{")) {
+            currentIntentation += "    ";
+        }
+        currentIntentation = "\n" + currentIntentation;
+
+        this->insertPlainText(currentIntentation);
+    }
+}
+
 void CodeEditor::updateLineNumberArea(const QRect &rect, int dy) {
     if(dy) {
         lineNumberArea->scroll(0, dy);
@@ -102,5 +142,17 @@ void CodeEditor::updateLineNumberArea(const QRect &rect, int dy) {
 
     if(rect.contains(viewport()->rect())) {
         updateLineNumberAreaWidth(0);
+    }
+}
+
+void CodeEditor::keyPressEvent(QKeyEvent *event) {
+    if(event->modifiers() == Qt::Modifier::CTRL && event->key() == Qt::Key_Slash){
+        this->commentCurrentLine();
+        //QPlainTextEdit::keyPressEvent(event);
+    } else if (event->key() == Qt::Key_Return) {
+        this->insertIndentation();
+        //QPlainTextEdit::keyPressEvent(event);
+    } else {
+        QPlainTextEdit::keyPressEvent(event);
     }
 }

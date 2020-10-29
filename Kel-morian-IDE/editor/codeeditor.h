@@ -16,12 +16,18 @@ protected:
     void resizeEvent(QResizeEvent *event) override;
     void updateLineNumberAreaWidth(int newBlockCount);
     void highlightCurrentLine();
+    void commentCurrentLine();
+    void insertIndentation();
     void updateLineNumberArea(const QRect &rect, int dy);
 
 private:
     QWidget *lineNumberArea;
 
     CodeHighLighter highlighter;
+
+    // QWidget interface
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
 };
 
 #endif // CODEEDITOR_H
